@@ -88,40 +88,55 @@
                             <label><i data-lucide="wallet"></i> Budget Harian (IDR)</label>
                             <input type="number" id="budget" placeholder="Contoh: 150000" required value="150000">
                         </div>
-                        <div class="form-group">
-                            <label><i data-lucide="map-pin"></i> Lokasi Target</label>
-                            <select id="location">
-                                <option value="all">Seluruh Indonesia</option>
-                                <option value="jabar">Jawa Barat</option>
-                                <option value="jatim">Jawa Timur</option>
-                                <option value="jateng">Jawa Tengah</option>
-                                <option value="banten">Banten</option>
-                                <option value="sulsel">Sulawesi Selatan</option>
-                                <option value="sumut">Sumatera Utara</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label><i data-lucide="users"></i> Rentang Usia</label>
-                            <div class="range-inputs">
-                                <input type="number" id="ageMin" value="30" min="18">
-                                <span>s/d</span>
-                                <input type="number" id="ageMax" value="55" max="65">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label><i data-lucide="heart"></i> Fokus Minat</label>
-                            <select id="interestFocus">
-                                <option value="general">Umum (Muslim Interest)</option>
-                                <option value="luxury">Haji Plus / Umroh VIP</option>
-                                <option value="economy">Promo Hemat</option>
-                            </select>
+                        <label><i data-lucide="map-pin"></i> Lokasi Target (Priority City)</label>
+                        <select id="location">
+                            <option value="all">Seluruh Indonesia</option>
+                            <optgroup label="Jabodetabek (Tier 1)">
+                                <option value="jakarta">DKI Jakarta</option>
+                                <option value="bogor">Bogor</option>
+                                <option value="depok">Depok</option>
+                                <option value="bekasi">Bekasi</option>
+                                <option value="tangerang">Tangerang</option>
+                            </optgroup>
+                            <optgroup label="Jawa (Tier 1)">
+                                <option value="bandung">Bandung</option>
+                                <option value="semarang">Semarang</option>
+                                <option value="yogyakarta">Yogyakarta</option>
+                                <option value="surabaya">Surabaya</option>
+                            </optgroup>
+                            <optgroup label="Luar Jawa (Potensial)">
+                                <option value="medan">Medan</option>
+                                <option value="palembang">Palembang</option>
+                                <option value="makassar">Makassar</option>
+                                <option value="banjarmasin">Banjarmasin</option>
+                                <option value="balikpapan">Balikpapan</option>
+                                <option value="pontianak">Pontianak</option>
+                                <option value="pekanbaru">Pekanbaru</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i data-lucide="users"></i> Rentang Usia</label>
+                        <div class="range-inputs">
+                            <input type="number" id="ageMin" value="30" min="18">
+                            <span>s/d</span>
+                            <input type="number" id="ageMax" value="55" max="65">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block btn-xl">
-                        <i data-lucide="search"></i> Analisa Sekarang
-                    </button>
-                </form>
+                    <div class="form-group">
+                        <label><i data-lucide="heart"></i> Fokus Minat</label>
+                        <select id="interestFocus">
+                            <option value="general">Umum (Muslim Interest)</option>
+                            <option value="luxury">Haji Plus / Umroh VIP</option>
+                            <option value="economy">Promo Hemat</option>
+                        </select>
+                    </div>
             </div>
+            <button type="submit" class="btn btn-primary btn-block btn-xl">
+                <i data-lucide="search"></i> Analisa Sekarang
+            </button>
+            </form>
+        </div>
         </div>
     </section>
 
@@ -138,11 +153,42 @@
                 <!-- Recommendations -->
                 <div class="card result-card recommendation">
                     <div class="card-header">
-                        <h3><i data-lucide="target"></i> Rekomendasi Targeting</h3>
+                        <h3><i data-lucide="target"></i> Winning Strategy 2026</h3>
                     </div>
-                    <ul class="target-list" id="targetList">
-                        <!-- Populated by JS -->
-                    </ul>
+
+                    <!-- New Strategy Matrix -->
+                    <div class="strategy-matrix">
+                        <div class="matrix-item">
+                            <span class="matrix-label">Objective</span>
+                            <span class="matrix-val text-success">Sales (Leads)</span>
+                        </div>
+                        <div class="matrix-item">
+                            <span class="matrix-label">Optimization</span>
+                            <span class="matrix-val">CBO + Lowest Cost</span>
+                        </div>
+                        <div class="matrix-item">
+                            <span class="matrix-label">Est. ROAS</span>
+                            <span class="matrix-val text-gold" id="calcROAS">-</span>
+                        </div>
+                        <div class="matrix-item">
+                            <span class="matrix-label">Est. CPR</span>
+                            <span class="matrix-val" id="calcCPR">-</span>
+                        </div>
+                        <div class="matrix-item full-width">
+                            <span class="matrix-label">Status</span>
+                            <span class="matrix-val text-primary" id="strategyStatus">Ready to Scale</span>
+                        </div>
+                    </div>
+
+                    <div class="placement-rec mt-2">
+                        <h4><i data-lucide="layout"></i> Rekomendasi Placement</h4>
+                        <div class="placement-bar">
+                            <div class="p-segment reels" style="width: 60%">Reels (60%)</div>
+                            <div class="p-segment feed" style="width: 25%">Feed (25%)</div>
+                            <div class="p-segment story" style="width: 15%">Story (15%)</div>
+                        </div>
+                        <p class="text-xs text-muted mt-1">Algoritma memprioritaskan video pendek.</p>
+                    </div>
                 </div>
 
                 <!-- Stats Visual -->
@@ -161,6 +207,34 @@
                         <div class="reach-item">
                             <span class="label">Estimasi CPC</span>
                             <span class="value" id="cpcValue">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Creative Recommendation Section -->
+            <div class="creative-section mt-2">
+                <div class="section-header text-center">
+                    <h3>Winning Creatives (Contoh)</h3>
+                    <p>Gunakan format ini untuk performa maksimal.</p>
+                </div>
+                <div class="creative-grid">
+                    <div class="creative-card">
+                        <div class="creative-preview">
+                            <img src="assets/mockups/reels.png" alt="Reels Mockup" class="img-mockup vertical">
+                        </div>
+                        <div class="creative-info">
+                            <h4>Format: Reels (9:16)</h4>
+                            <p>Video 15-30 detik. Fokus pada storytelling emosional: "Rindu Baitullah".</p>
+                        </div>
+                    </div>
+                    <div class="creative-card">
+                        <div class="creative-preview">
+                            <img src="assets/mockups/carousel.png" alt="Carousel Mockup" class="img-mockup square">
+                        </div>
+                        <div class="creative-info">
+                            <h4>Format: Carousel (1:1)</h4>
+                            <p>Katalog Paket. Slide 1: Headline, Slide 2: Fasilitas, Slide 3: CTA.</p>
                         </div>
                     </div>
                 </div>
@@ -228,32 +302,67 @@
     <section id="optimization" class="section">
         <div class="container">
             <div class="section-header">
-                <h2>Tips Optimasi Iklan</h2>
+                <h2>Strategi Winning Ads 2026</h2>
+                <p>Framework terbaru: Creative-First & Broad Targeting.</p>
             </div>
 
-            <div class="tips-container">
-                <div class="tip-card">
+            <div class="strategy-grid">
+                <!-- 1. Broad Targeting -->
+                <div class="tip-card strategy-card">
                     <div class="tip-number">01</div>
                     <div class="tip-content">
-                        <h4>Visual Autentik</h4>
-                        <p>Hindari foto stock berlebihan. Gunakan foto/video testimoni jamaah asli saat di Tanah Suci.
-                            Ini meningkatkan trust hingga 40%.</p>
+                        <h4>Broad Targeting</h4>
+                        <p><strong>Stop Interest Sempit!</strong> Fokus pada usia 25-60+ & lokasi potensial. Biarkan AI
+                            mencari pembeli.</p>
                     </div>
                 </div>
-                <div class="tip-card">
+
+                <!-- 2. Creative is King -->
+                <div class="tip-card strategy-card">
                     <div class="tip-number">02</div>
                     <div class="tip-content">
-                        <h4>Copywriting Emosional</h4>
-                        <p>Sentuh sisi kerinduan ke Baitullah. Gunakan kata kunci seperti "Rindu Ka'bah", "Panggilan
-                            Allah", "Ibadah Nyaman".</p>
+                        <h4>Creative is King</h4>
+                        <p>Konten menentukan hasil. Gunakan video storytelling emosional, testimoni jamaah, & visual
+                            Ka'bah.</p>
                     </div>
                 </div>
-                <div class="tip-card">
+
+                <!-- 3. First Party Data -->
+                <div class="tip-card strategy-card">
                     <div class="tip-number">03</div>
                     <div class="tip-content">
-                        <h4>Retargeting Wajib</h4>
-                        <p>Jangan biarkan lead lepas. Buat Custom Audience dari orang yang pernah engage dengan IG/FB
-                            Page Anda.</p>
+                        <h4>Data First-Party</h4>
+                        <p>Upload data jamaah lama -> Buat <strong>Lookalike Audience 1-5%</strong>. Ini harta karun
+                            Anda.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Automation -->
+                <div class="tip-card strategy-card">
+                    <div class="tip-number">04</div>
+                    <div class="tip-content">
+                        <h4>Automation</h4>
+                        <p>Gunakan <strong>Advantage+ Placements</strong> & <strong>CBO</strong>. Biarkan algoritma
+                            mengoptimalkan budget & penempatan.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Scaling -->
+                <div class="tip-card strategy-card">
+                    <div class="tip-number">05</div>
+                    <div class="tip-content">
+                        <h4>Scale with ROAS</h4>
+                        <p>Jika ROAS > 2.5x, naikkan budget 20%. Matikan kampanye yang boncos di awal.</p>
+                    </div>
+                </div>
+
+                <!-- 6. Objective -->
+                <div class="tip-card strategy-card">
+                    <div class="tip-number">06</div>
+                    <div class="tip-content">
+                        <h4>Sales Objective</h4>
+                        <p>Wajib pilih objective <strong>Events: Purchase/Lead</strong>. Jangan buang uang di Traffic
+                            Campaign.</p>
                     </div>
                 </div>
             </div>

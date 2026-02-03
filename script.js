@@ -49,30 +49,46 @@ async function getEstimates(location, budget, ageMin, ageMax, interestType) {
 
 let demographicsChart = null;
 
-async function runAnalysis() {
-    // Get inputs
+// --- 2026 CALCULATOR LOGIC ---
+function runAnalysis() {
     const budget = document.getElementById('budget').value;
     const location = document.getElementById('location').value;
-    const ageMin = document.getElementById('ageMin').value;
-    const ageMax = document.getElementById('ageMax').value;
     const interestType = document.getElementById('interestFocus').value;
 
-    // Show Loading
-    const resultsSection = document.getElementById('results');
-    resultsSection.classList.remove('hidden');
-    resultsSection.scrollIntoView({ behavior: 'smooth' });
+    // Simulation Config (Benchmarks 2026)
+    const benchmarkCPC = 2500; // IDR
+    const benchmarkConvRate = 0.05; // 5% Conversion Rate (Lead)
+    const profitPerLead = 150000; // Estimate average profit value pending closing
 
-    // Fetch Data (Async)
-    const estimates = await getEstimates(location, budget, ageMin, ageMax, interestType);
-    const interests = INTEREST_DATA[interestType];
+    // 1. Calculate Metrics
+    const estimatedClicks = Math.floor(budget / benchmarkCPC);
+    const estimatedLeads = Math.floor(estimatedClicks * benchmarkConvRate);
+    const cpr = estimatedLeads > 0 ? Math.floor(budget / estimatedLeads) : 0;
+    const potentialRevenue = estimatedLeads * profitPerLead;
+    const roas = budget > 0 ? (potentialRevenue / budget).toFixed(2) : 0;
 
-    // Update Text Data
-    updateRecommendations(ageMin, ageMax, location, interests);
-    updateStats(estimates.reach, estimates.cpc);
+    // 2. Fetch Backend Estimates (Mock or Real)
+    // For now we simulate specific location reach
+    const estimates = getEstimates(location, budget);
+
+    // 3. Update UI
+    // Show Results Section
+    document.getElementById('results').classList.remove('hidden');
+
+    // Update Stats
+    updateStats(estimates.reach, estimates.cpc, cpr, roas, estimatedLeads);
+
+    // Update City List
     updateSegmentation(location);
+
+    // Deep Strategy Update
+    updateStrategyVisuals(roas);
 
     // Charts Logic
     updateCharts(interestType);
+
+    // Scroll to results
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
 }
 
 // --- DASHBOARD: REAL CAMPAIGN INSIGHTS ---
@@ -152,14 +168,48 @@ function updateStats(reach, cpc) {
     document.getElementById('cpcValue').innerText = "Rp " + new Intl.NumberFormat('id-ID').format(cpc);
 }
 
-function updateSegmentation(loc) {
-    const cityList = document.getElementById('cityList');
-    // Mock cities based on province
-    let cities = ["Jakarta Selatan", "Bandung", "Surabaya", "Bekasi", "Tangerang"];
-    if (loc === 'jabar') cities = ["Bandung", "Bekasi", "Bogor", "Depok", "Cirebon"];
-    if (loc === 'jatim') cities = ["Surabaya", "Malang", "Sidoarjo", "Gresik", "Kediri"];
+function updateSegmentation(location) {
+    const list = document.getElementById('cityList');
+    list.innerHTML = "";
 
-    cityList.innerHTML = cities.map(c => `<li>${c}</li>`).join('');
+    // Mapping for Strategy Cities (Tier 1 & 2)
+    const cityMap = {
+        'all': ['Jakarta Selatan', 'Surabaya', 'Medan', 'Bandung', 'Makassar'],
+
+        // Jabodetabek
+        'jakarta': ['Jaksel (Pondok Indah)', 'Jakpus (Menteng)', 'Jaktim (Cibubur)', 'Jakbar (Puri)', 'Jakut (Kelapa Gading)'],
+        'bogor': ['Sentul City', 'Bogor Kota', 'Cibinong', 'Yasmin', 'Baranangsiang'],
+        'depok': ['Margonda', 'Cinere', 'Cibubur', 'Sawangan', 'GDC'],
+        'bekasi': ['Summarecon', 'Harapan Indah', 'Kemang Pratama', 'Jatiasih', 'Galaxy'],
+        'tangerang': ['BSD City', 'Bintaro', 'Gading Serpong', 'Alam Sutera', 'Cikokol'],
+
+        // Jawa
+        'bandung': ['Dago', 'Buah Batu', 'Antapani', 'Setiabudi', 'Arcamanik'],
+        'semarang': ['Simpang Lima', 'Banyumanik', 'Tembalang', 'Candi', 'Ngaliyan'],
+        'yogyakarta': ['Sleman', 'Kotabaru', 'Condongcatur', 'Bantul', 'Kaliurang'],
+        'surabaya': ['Surabaya Barat', 'Gubeng', 'Rungkut', 'Pakuwon', 'Tegalsari'],
+
+        // Luar Jawa
+        'medan': ['Medan Polonia', 'Setiabudi', 'Medan Baru', 'Helvetia', 'Johor'],
+        'palembang': ['Ilir Barat', 'Ilir Timur', 'Sako', 'Plaju', 'Kemuning'],
+        'makassar': ['Panakkukang', 'Rappocini', 'Losari', 'Tamalanrea', 'Biringkanaya'],
+        'banjarmasin': ['Banjarmasin Tengah', 'Kayu Tangi', 'Gatot Subroto', 'Sultan Adam', 'A. Yani'],
+        'balikpapan': ['Balikpapan Baru', 'MT Haryono', 'Sudirman', 'Balikpapan Selatan', 'Gunung Sari'],
+        'pontianak': ['Pontianak Selatan', 'Kota Baru', 'Ayani Mega Mall', 'Sungai Jawi', 'Tanjung Pura'],
+        'pekanbaru': ['Sudirman', 'Panam', 'Rumbai', 'Sukajadi', 'Marpoyan'],
+
+        // Legacy Fallback
+        'jabar': ['Bandung', 'Bekasi', 'Depok', 'Bogor', 'Cimahi'],
+        'jatim': ['Surabaya', 'Malang', 'Sidoarjo', 'Kediri', 'Gresik']
+    };
+
+    const topCities = cityMap[location] || ['Pusat Kota', 'Kawasan Perumahan Elite', 'Area Bisnis', 'Suburban Premium', 'Kawasan Masjid Besar'];
+
+    topCities.forEach(city => {
+        const li = document.createElement('li');
+        li.innerText = city;
+        list.appendChild(li);
+    });
 
     const tags = document.getElementById('behaviorTags');
     const behaviors = ["Mengakses via Android (80%)", "Jam Aktif: 19.00 - 21.00", "Suka Video Konten", "Pembayaran: Transfer Bank"];

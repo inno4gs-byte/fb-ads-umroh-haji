@@ -39,17 +39,37 @@ exports.handler = async function (event, context) {
 
         // 1. Base Logic
         const baseReachMap = {
-            'all': 4500000,
-            'jabar': 1200000,
-            'jatim': 950000,
-            'jateng': 800000,
-            'banten': 600000,
-            'sulsel': 400000,
-            'sumut': 350000
+            'all': 85000000, // Total Muslim Audience on FB
+
+            // Jabodetabek
+            'jakarta': 7500000,
+            'bogor': 2100000,
+            'depok': 1800000,
+            'bekasi': 2400000,
+            'tangerang': 1900000,
+
+            // Jawa Tier 1
+            'bandung': 3200000,
+            'semarang': 1500000,
+            'yogyakarta': 1200000,
+            'surabaya': 4100000,
+
+            // Luar Jawa
+            'medan': 2300000,
+            'palembang': 1400000,
+            'makassar': 1600000,
+            'banjarmasin': 800000,
+            'balikpapan': 750000,
+            'pontianak': 650000,
+            'pekanbaru': 900000,
+
+            // Legacy
+            'jabar': 12000000,
+            'jatim': 11000000
         };
 
         // 2. Calculate Estimates
-        let reach = baseReachMap[location] || 1000000;
+        let reach = baseReachMap[location] || 500000;
         const budgetFactor = Math.min(budget / 50000, 2.5);
         reach = Math.floor(reach * budgetFactor);
 
