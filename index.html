@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisa FB Ads Umroh & Haji | Target Audience Pro</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <i data-lucide="moon" class="logo-icon"></i>
+                <span>UmrohAds<span class="text-accent">Pro</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="active">Beranda</a>
+                <a href="#analisa">Analisa Target</a>
+                <a href="#wawasan">Wawasan Pasar</a>
+                <a href="#dashboard">Dashboard</a>
+            </div>
+            <button class="btn btn-primary" onclick="window.location.hash='analisa'">Mulai Sekarang</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="container hero-content">
+            <span class="badge">#1 Tools Analisa Ads Umroh</span>
+            <h1>Analisa Target Audience <br> <span class="text-gradient">Umroh & Haji</span> Lebih Akurat</h1>
+            <p>Tingkatkan efektivitas iklan Facebook & Instagram Ads Anda dengan data target audience yang tepat. Hemat
+                budget, maksimalkan closing.</p>
+            <div class="hero-actions">
+                <a href="#analisa" class="btn btn-primary btn-lg">
+                    <i data-lucide="crosshair"></i> Mulai Analisa Target
+                </a>
+                <a href="#wawasan" class="btn btn-outline btn-lg">Pelajari Insight</a>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>200 jt+</h3>
+                    <p>Potensi Audience Muslim</p>
+                </div>
+                <div class="stat-card">
+                    <h3>30-55th</h3>
+                    <p>Rentang Usia Ideal</p>
+                </div>
+                <div class="stat-card">
+                    <h3>2x</h3>
+                    <p>Kenaikan Konversi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analysis Form Section -->
+    <section id="analisa" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cari Target Audience Anda</h2>
+                <p>Masukkan parameter kampanye Anda untuk mendapatkan rekomendasi target yang spesifik.</p>
+            </div>
+
+            <div class="analysis-card">
+                <form id="analysisForm" onsubmit="event.preventDefault(); runAnalysis();">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i data-lucide="wallet"></i> Budget Harian (IDR)</label>
+                            <input type="number" id="budget" placeholder="Contoh: 150000" required value="150000">
+                        </div>
+                        <div class="form-group">
+                            <label><i data-lucide="map-pin"></i> Lokasi Target</label>
+                            <select id="location">
+                                <option value="all">Seluruh Indonesia</option>
+                                <option value="jabar">Jawa Barat</option>
+                                <option value="jatim">Jawa Timur</option>
+                                <option value="jateng">Jawa Tengah</option>
+                                <option value="banten">Banten</option>
+                                <option value="sulsel">Sulawesi Selatan</option>
+                                <option value="sumut">Sumatera Utara</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i data-lucide="users"></i> Rentang Usia</label>
+                            <div class="range-inputs">
+                                <input type="number" id="ageMin" value="30" min="18">
+                                <span>s/d</span>
+                                <input type="number" id="ageMax" value="55" max="65">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i data-lucide="heart"></i> Fokus Minat</label>
+                            <select id="interestFocus">
+                                <option value="general">Umum (Muslim Interest)</option>
+                                <option value="luxury">Haji Plus / Umroh VIP</option>
+                                <option value="economy">Promo Hemat</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-xl">
+                        <i data-lucide="search"></i> Analisa Sekarang
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section (Hidden Initially) -->
+    <section id="results" class="section results-section hidden">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge badge-success">Analisa Selesai</span>
+                <h2>Hasil Analisa Target</h2>
+                <p>Berikut adalah rekomendasi audience berdasarkan data Anda.</p>
+            </div>
+
+            <div class="results-grid">
+                <!-- Recommendations -->
+                <div class="card result-card recommendation">
+                    <div class="card-header">
+                        <h3><i data-lucide="target"></i> Rekomendasi Targeting</h3>
+                    </div>
+                    <ul class="target-list" id="targetList">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+
+                <!-- Stats Visual -->
+                <div class="card result-card charts">
+                    <div class="card-header">
+                        <h3><i data-lucide="pie-chart"></i> Estimasi Demografi</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="demographicsChart"></canvas>
+                    </div>
+                    <div class="reach-summary">
+                        <div class="reach-item">
+                            <span class="label">Potensi Jangkauan</span>
+                            <span class="value" id="reachValue">0</span>
+                        </div>
+                        <div class="reach-item">
+                            <span class="label">Estimasi CPC</span>
+                            <span class="value" id="cpcValue">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segmentation Deep Dive -->
+            <div class="segmentation-grid mt-2">
+                <div class="card">
+                    <h4><i data-lucide="map"></i> Top Kota Potensial</h4>
+                    <ul class="list-check" id="cityList">
+                        <!-- JS -->
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4><i data-lucide="smartphone"></i> Perilaku Digital</h4>
+                    <p class="text-sm text-muted">User yang sering berinteraksi dengan konten religi dan travel dalam 30
+                        hari terakhir.</p>
+                    <div class="tags-container" id="behaviorTags">
+                        <!-- JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions-row">
+                <button class="btn btn-outline" onclick="window.print()">
+                    <i data-lucide="download"></i> Download PDF
+                </button>
+                <button class="btn btn-secondary" onclick="scrollToOptimization()">
+                    <i data-lucide="zap"></i> Lihat Tips Optimasi
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Insights Section -->
+    <section id="wawasan" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Wawasan Pasar & Segmentasi</h2>
+                <p>Data tren terkini jamaah Umroh & Haji Indonesia.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-bg"><i data-lucide="users"></i></div>
+                    <h3>Dominasi Usia 40+</h3>
+                    <p>Sebesar 60% peminat serius berada di rentang usia 40-55 tahun, dengan daya beli menengah ke atas.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-bg"><i data-lucide="facebook"></i></div>
+                    <h3>Facebook vs Instagram</h3>
+                    <p>Facebook lebih efektif untuk paket reguler/keluarga, Instagram untuk paket private/milenial.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-bg"><i data-lucide="calendar"></i></div>
+                    <h3>Waktu Terbaik</h3>
+                    <p>Bulan Rajab dan Syawal sering menjadi peak season pencarian informasi paket Umroh.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Optimization Tips -->
+    <section id="optimization" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tips Optimasi Iklan</h2>
+            </div>
+
+            <div class="tips-container">
+                <div class="tip-card">
+                    <div class="tip-number">01</div>
+                    <div class="tip-content">
+                        <h4>Visual Autentik</h4>
+                        <p>Hindari foto stock berlebihan. Gunakan foto/video testimoni jamaah asli saat di Tanah Suci.
+                            Ini meningkatkan trust hingga 40%.</p>
+                    </div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">02</div>
+                    <div class="tip-content">
+                        <h4>Copywriting Emosional</h4>
+                        <p>Sentuh sisi kerinduan ke Baitullah. Gunakan kata kunci seperti "Rindu Ka'bah", "Panggilan
+                            Allah", "Ibadah Nyaman".</p>
+                    </div>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-number">03</div>
+                    <div class="tip-content">
+                        <h4>Retargeting Wajib</h4>
+                        <p>Jangan biarkan lead lepas. Buat Custom Audience dari orang yang pernah engage dengan IG/FB
+                            Page Anda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section id="dashboard" class="section bg-dark text-white">
+        <div class="container">
+            <div class="dashboard-preview">
+                <div class="dashboard-text">
+                    <h2>Pantau Performa Kampanye Anda</h2>
+                    <p>Dashboard sederhana untuk melihat KPI penting: CTR, Cost per Lead, dan Konversi.</p>
+                    <ul class="list-check white-check">
+                        <li>Real-time monitoring</li>
+                        <li>Rekomendasi tindakan otomatis</li>
+                        <li>Laporan mudah dibaca</li>
+                    </ul>
+                    <button class="btn btn-gold mt-1">Coba Dashboard Demo</button>
+                </div>
+                <div class="dashboard-mockup">
+                    <div class="mockup-header">
+                        <span class="dot"></span><span class="dot"></span>
+                    </div>
+                    <div class="mockup-body">
+                        <div class="mock-stat">
+                            <span>Total Leads</span>
+                            <strong>142</strong>
+                        </div>
+                        <div class="mock-stat">
+                            <span>Cost/Lead</span>
+                            <strong>Rp 12.500</strong>
+                        </div>
+                        <div class="mock-chart">
+                            <div class="bar" style="height: 60%"></div>
+                            <div class="bar" style="height: 80%"></div>
+                            <div class="bar" style="height: 40%"></div>
+                            <div class="bar" style="height: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span>UmrohAdsPro</span>
+                    <p>Solusi cerdas untuk travel Umroh & Haji Indonesia.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 UmrohAdsPro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
