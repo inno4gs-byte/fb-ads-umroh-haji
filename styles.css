@@ -423,12 +423,12 @@ h3 {
     gap: 2rem;
 }
 
-/* Optimization Tips */
-.tips-container {
-    display: flex;
-    flex-direction: column;
+.tips-container,
+.strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -440,6 +440,12 @@ h3 {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     align-items: start;
+    transition: transform 0.2s;
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
 }
 
 .tip-number {
