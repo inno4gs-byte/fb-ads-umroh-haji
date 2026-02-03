@@ -272,7 +272,8 @@
                         <li>Rekomendasi tindakan otomatis</li>
                         <li>Laporan mudah dibaca</li>
                     </ul>
-                    <button class="btn btn-gold mt-1">Coba Dashboard Demo</button>
+                    <button id="btnLoadInsights" class="btn btn-gold mt-1" onclick="getCampaignInsights()">Ambil Data
+                        Real (Live)</button>
                 </div>
                 <div class="dashboard-mockup">
                     <div class="mockup-header">
@@ -280,12 +281,12 @@
                     </div>
                     <div class="mockup-body">
                         <div class="mock-stat">
-                            <span>Total Leads</span>
-                            <strong>142</strong>
+                            <span>Total Leads / Conversions</span>
+                            <strong id="dashLead">142</strong>
                         </div>
                         <div class="mock-stat">
-                            <span>Cost/Lead</span>
-                            <strong>Rp 12.500</strong>
+                            <span>Cost/Lead (CPC)</span>
+                            <strong id="dashCost">Rp 12.500</strong>
                         </div>
                         <div class="mock-chart">
                             <div class="bar" style="height: 60%"></div>

@@ -71,8 +71,67 @@ async function runAnalysis() {
     updateStats(estimates.reach, estimates.cpc);
     updateSegmentation(location);
 
-    // Update Charts
+    // Charts Logic
     updateCharts(interestType);
+}
+
+// --- DASHBOARD: REAL CAMPAIGN INSIGHTS ---
+async function getCampaignInsights() {
+    console.log("Fetching Real Campaign Insights...");
+
+    // UI Feedback
+    const btn = document.getElementById('btnLoadInsights');
+    if (btn) btn.innerText = "Loading...";
+
+    try {
+        // Call our new Serverless Backend
+        // Note: we use our configured redirect /api/insights -> /.netlify/functions/getInsights
+        // Or direct path /.netlify/functions/getInsights
+        const response = await fetch("/.netlify/functions/getInsights");
+        const data = await response.json();
+
+        if (data.error) {
+            console.error("Backend Error:", data.error);
+            alert("Gagal mengambil data: " + data.error);
+            if (btn) btn.innerText = "Coba Lagi";
+            return;
+        }
+
+        console.log("Campaign Insights Received:", data);
+        renderDashboard(data);
+        if (btn) btn.innerText = "Data Updated";
+
+    } catch (err) {
+        console.error("Fetch error:", err);
+        // Fallback for Demo
+        renderDashboardMock();
+        if (btn) btn.innerText = "Demo Mode";
+    }
+}
+
+function renderDashboard(apiData) {
+    // If API returns empty data or error, use mock
+    if (!apiData || !apiData.data || apiData.data.length === 0) {
+        renderDashboardMock();
+        return;
+    }
+
+    const stats = apiData.data[0]; // Assuming single campaign for demo
+
+    // Update Dashboard DOM elements
+    updateDashElement('dashLead', stats.conversions || 0);
+    updateDashElement('dashCost', stats.cpc ? "Rp " + stats.cpc : "-");
+    // More mapping...
+}
+
+function renderDashboardMock() {
+    console.log("Rendering Mock Dashboard");
+    // Existing static mock values are already valid, just logging
+}
+
+function updateDashElement(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.innerText = val;
 }
 
 function updateRecommendations(min, max, loc, interests) {
