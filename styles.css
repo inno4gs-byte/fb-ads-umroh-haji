@@ -545,6 +545,114 @@ h3 {
     border-bottom: none;
 }
 
+/* A/B Testing Grid */
+.ab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.ab-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.ab-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.ab-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    z-index: 10;
+    box-shadow: var(--shadow-sm);
+}
+
+.badge-primary {
+    background: var(--color-primary);
+}
+
+.badge-accent {
+    background: var(--color-accent);
+    color: var(--color-primary-dark);
+}
+
+.badge-dark {
+    background: var(--color-primary-dark);
+}
+
+.ab-image-wrapper {
+    position: relative;
+    height: 300px;
+    background: #eee;
+    overflow: hidden;
+}
+
+.ab-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.ab-content {
+    padding: 1.5rem;
+}
+
+.ab-content h4 {
+    margin-bottom: 0.5rem;
+    color: var(--color-primary-dark);
+}
+
+.ab-desc {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+}
+
+.ab-details {
+    background: var(--color-bg);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ab-details small {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+}
+
 /* Audience Specs */
 .audience-specs {
     display: flex;
